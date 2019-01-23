@@ -9,24 +9,47 @@
     android:background="#FFFFFF"
     android:orientation="vertical">
 
-    <logan.example.com.myapplication.Triangle
+    <logan.example.com.trianglesolver.Triangle
         android:id="@+id/triangle_canvas"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
         android:textColor="#FFFFFF"
-        app:layout_constraintBottom_toTopOf="@id/side_a_edit"
+        app:layout_constraintBottom_toTopOf="@+id/area_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/area_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/side_a_edit"
+        app:layout_constraintStart_toStartOf="@+id/side_a_edit" />
+
+    <TextView
+        android:id="@+id/perimeter_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="2dp"
+        android:layout_marginBottom="8dp"
+        android:fontFamily="@font/roboto"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/angle_a_edit"
+        app:layout_constraintStart_toStartOf="@+id/angle_a_edit" />
 
     <EditText
         android:id="@+id/side_a_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:ems="6"
         android:hint="@string/side_a"
         android:inputType="numberDecimal"
@@ -40,7 +63,7 @@
         android:id="@+id/side_b_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:ems="6"
         android:hint="@string/side_b"
         android:inputType="numberDecimal"
@@ -53,7 +76,7 @@
         android:id="@+id/side_c_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:ems="6"
         android:hint="@string/side_c"
         android:inputType="numberDecimal"
@@ -66,7 +89,7 @@
         android:id="@+id/angle_a_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:ems="6"
         android:hint="@string/angle_a"
         android:inputType="numberDecimal"
@@ -79,7 +102,7 @@
         android:id="@+id/angle_b_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:ems="6"
         android:hint="@string/angle_b"
         android:inputType="numberDecimal"
@@ -92,7 +115,7 @@
         android:id="@+id/angle_c_edit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="4dp"
         android:ems="6"
         android:hint="@string/angle_c"
         android:inputType="numberDecimal"
@@ -126,5 +149,10 @@
         custom:layout_constraintEnd_toEndOf="parent"
         custom:layout_constraintStart_toEndOf="@+id/reset_button" />
 
+    <android.support.constraint.Group
+        android:id="@+id/data_view_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="angle_b_edit,side_c_edit,side_b_edit,perimeter_text,angle_a_edit,area_text,angle_c_edit,side_a_edit" />
 
 </android.support.constraint.ConstraintLayout>

@@ -19,6 +19,6 @@ class ExampleInstrumentedTest {
     fun useAppContext() {
         // Context of the app under test.
         val appContext = InstrumentationRegistry.getTargetContext()
-        assertEquals("logan.example.com.trianglesolver", appContext.packageName)
+        assertEquals("logan.example.com.myapplication", appContext.packageName)
     }
 }

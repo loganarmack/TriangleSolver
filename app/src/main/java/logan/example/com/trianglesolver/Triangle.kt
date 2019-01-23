@@ -1,4 +1,4 @@
-package logan.example.com.myapplication
+package logan.example.com.trianglesolver
 
 import android.content.Context
 import android.graphics.*
@@ -17,6 +17,9 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
     var angleA: Double? = null
     var angleB: Double? = null
     var angleC: Double? = null
+
+    var area = 0.0
+    var perimeter = 0.0
 
     private val pointA = Point()
     private val pointB = Point()
@@ -42,10 +45,10 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
         mPaint.style = Paint.Style.STROKE
         mPaint.isAntiAlias = true
 
-        pointA.x = width / 4
-        pointA.y = 3 * height / 4
-        pointB.x = 3 * width / 4
-        pointB.y = 3 * height / 4
+        pointA.x = width / 6
+        pointA.y = 5 * height / 6
+        pointB.x = 5 * width / 6
+        pointB.y = 5 * height / 6
 
         if (!nodraw) {
             mPath.fillType = Path.FillType.EVEN_ODD
@@ -60,7 +63,7 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
         }
     }
 
-    fun solveTriangle(): Double {
+    fun solveTriangle() {
         //gets total number of non-zero sides & angles
         val sides: Int = toInt(sideA != null) + toInt(sideB != null) + toInt(sideC != null)
         val angles: Int = toInt(angleA != null) + toInt(angleB != null) + toInt(angleC != null)
@@ -144,9 +147,11 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
         //gets position of 3rd point
         pointC = calcPointC()
 
+        perimeter = a + b + c
+
         //heron formula
         val s = (a + b + c) / 2
-        return sqrt(s * (s-a) * (s - b) * (s - c))
+        area = sqrt(s * (s-a) * (s - b) * (s - c))
     }
 
     //solves side C using cosine law
@@ -178,6 +183,7 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
         var drawAngleC: Double = angleC ?: throw Exception("Angle C length is null!")
         when {
             drawSideA >= drawSideB && drawSideA >= drawSideC -> {
+                //moves side a to base; rotates everything else
                 val tempSide = drawSideA
                 val tempAngle = drawAngleA
                 drawSideA = drawSideB
@@ -188,6 +194,7 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
                 drawAngleC = tempAngle
             }
             drawSideB >= drawSideA && drawSideB >= drawSideC -> {
+                //moves side b to base; rotates everything else
                 val tempSide = drawSideB
                 val tempAngle = drawAngleB
                 drawSideB = drawSideA
@@ -202,8 +209,8 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
 
         val slopeA: Double = -tan(drawAngleA * PI / 180)
         val slopeB: Double = -tan((180 - drawAngleB) * PI / 180)
-        val yIntA: Double = 3 * height.toDouble() / 4 - slopeA * width.toDouble() / 4
-        val yIntB: Double = 3 * height.toDouble() / 4 - slopeB * 3 * width.toDouble() / 4
+        val yIntA: Double = 5 * height.toDouble() / 6 - slopeA * width.toDouble() / 6
+        val yIntB: Double = 5 * height.toDouble() / 6 - slopeB * 5 * width.toDouble() / 6
 
         val x = (yIntB - yIntA) / (slopeA - slopeB)
         val y = slopeA * (yIntB - yIntA) / (slopeA - slopeB) + yIntA

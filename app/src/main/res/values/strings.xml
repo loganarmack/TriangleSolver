@@ -13,4 +13,6 @@
     <string name="min_one_side_len">Give at least one side length</string>
     <string name="not_enough_data">Not enough data! Please give exactly 3 pieces of data</string>
     <string name="too_much_data">Too much data! Please give exactly 3 pieces of data.</string>
+    <string name="perimeter">Perimeter: %.3f</string>
+    <string name="area">Area: %.3f</string>
 </resources>
