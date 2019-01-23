@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Triangle Solver</string>
+    <string name="clear_canvas">Clear Canvas</string>
+    <string name="reset">Reset</string>
+    <string name="solve">Solve</string>
+    <string name="side_a">Side A</string>
+    <string name="side_b">Side B</string>
+    <string name="side_c">Side C</string>
+    <string name="angle_a">Angle A</string>
+    <string name="angle_b">Angle B</string>
+    <string name="angle_c">Angle C</string>
+    <string name="impossible_triangle">Impossible triangle</string>
+    <string name="min_one_side_len">Give at least one side length</string>
+    <string name="not_enough_data">Not enough data! Please give exactly 3 pieces of data</string>
+    <string name="too_much_data">Too much data! Please give exactly 3 pieces of data.</string>
 </resources>
