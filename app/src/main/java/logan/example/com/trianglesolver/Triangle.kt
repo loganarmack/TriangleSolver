@@ -2,6 +2,7 @@ package logan.example.com.trianglesolver
 
 import android.content.Context
 import android.graphics.*
+import android.support.v4.content.res.ResourcesCompat
 import android.util.AttributeSet
 import android.view.View
 import java.lang.Math.*
@@ -10,6 +11,7 @@ import kotlin.math.tan
 class Triangle(internal var context: Context, attrs: AttributeSet) : View(context, attrs){
     private val mPath = Path()
     private val mPaint = Paint()
+    private val textPaint = Paint()
 
     var sideA: Double? = null
     var sideB: Double? = null
@@ -23,7 +25,9 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
 
     private val pointA = Point()
     private val pointB = Point()
-    private var pointC= Point()
+    private var pointC = Point()
+
+    private var rotate: Int = 0
 
     private var nodraw = true
 
@@ -45,6 +49,12 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
         mPaint.style = Paint.Style.STROKE
         mPaint.isAntiAlias = true
 
+        textPaint.color = android.graphics.Color.BLACK
+        textPaint.textAlign = Paint.Align.CENTER
+        textPaint.typeface = ResourcesCompat.getFont(context, R.font.roboto)
+        textPaint.textSize = 50f
+
+
         pointA.x = width / 6
         pointA.y = 5 * height / 6
         pointB.x = 5 * width / 6
@@ -59,6 +69,13 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
             mPath.close()
 
             canvas.drawPath(mPath, mPaint)
+
+            //label points
+            val pointLabel: List<String> = listOf("A", "B", "C")
+            canvas.drawText(pointLabel[rotate], pointA.x.toFloat() - 10, pointA.y.toFloat() + 10, textPaint)
+            canvas.drawText(pointLabel[(rotate + 1) % 3], pointB.x.toFloat() + 10, pointB.y.toFloat() + 10, textPaint)
+            canvas.drawText(pointLabel[(rotate + 2) % 3], pointC.x.toFloat(), pointC.y.toFloat() - 10, textPaint)
+
             nodraw = true
         }
     }
@@ -76,7 +93,11 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
         var C: Double = angleC ?: 0.0
 
         //check for invalid cases
-        if (sides + angles > 3) {
+        if (sides + angles == 6) {
+            //triangle was already solved
+            return
+        }
+        else if (sides + angles > 3) {
             throw Exception(context.getString(R.string.too_much_data))
         }
         else if (sides + angles < 3) {
@@ -85,7 +106,10 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
         else if (sides == 0) {
             throw Exception(context.getString(R.string.min_one_side_len))
         }
-        else if (A + B + C > 180 || a + b <= c || b + c <= a || a + c <= b) {
+        else if (A + B + C > 180 && angles == 2) {
+            throw Exception(context.getString(R.string.impossible_triangle))
+        }
+        else if (sides == 3 && a + b <= c || b + c <= a || a + c <= b) {
             throw Exception(context.getString(R.string.impossible_triangle))
         }
 
@@ -192,23 +216,25 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
                 drawAngleB = drawAngleC
                 drawSideC = tempSide
                 drawAngleC = tempAngle
+                rotate = 1
             }
             drawSideB >= drawSideA && drawSideB >= drawSideC -> {
                 //moves side b to base; rotates everything else
-                val tempSide = drawSideB
-                val tempAngle = drawAngleB
-                drawSideB = drawSideA
-                drawAngleB = drawSideB
+                val tempSide = drawSideA
+                val tempAngle = drawAngleA
                 drawSideA = drawSideC
                 drawAngleA = drawAngleC
-                drawSideC = tempSide
-                drawAngleC = tempAngle
+                drawSideC = drawSideB
+                drawAngleC = drawAngleB
+                drawSideB = tempSide
+                drawAngleB = tempAngle
+                rotate = 2
             }
             //otherwise longest side is already at the base
         }
 
         val slopeA: Double = -tan(drawAngleA * PI / 180)
-        val slopeB: Double = -tan((180 - drawAngleB) * PI / 180)
+        val slopeB: Double = tan(drawAngleB * PI / 180)
         val yIntA: Double = 5 * height.toDouble() / 6 - slopeA * width.toDouble() / 6
         val yIntB: Double = 5 * height.toDouble() / 6 - slopeB * 5 * width.toDouble() / 6
 
@@ -231,6 +257,8 @@ class Triangle(internal var context: Context, attrs: AttributeSet) : View(contex
         angleA = 0.0
         angleB = 0.0
         angleC = 0.0
+
+        rotate = 0
 
         nodraw = true
         mPath.reset()

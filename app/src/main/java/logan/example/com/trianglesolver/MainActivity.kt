@@ -1,9 +1,11 @@
 package logan.example.com.trianglesolver
 
 import android.os.Bundle
+import android.support.constraint.ConstraintLayout
 import android.support.constraint.Group
 import android.support.v7.app.AppCompatActivity
 import android.view.View;
+import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
@@ -38,17 +40,20 @@ class MainActivity : AppCompatActivity() {
 
     fun resetCanvas(view: View) {
         sideAEdit.text.clear()
+        sideAEdit.invalidate()
         sideBEdit.text.clear()
+        sideBEdit.invalidate()
         sideCEdit.text.clear()
+        sideCEdit.invalidate()
         angleAEdit.text.clear()
+        angleAEdit.invalidate()
         angleBEdit.text.clear()
+        angleBEdit.invalidate()
         angleCEdit.text.clear()
+        angleCEdit.invalidate()
 
         areaText.text = ""
         perimeterText.text = ""
-
-        //forces all text to be redrawn
-        findViewById<Group>(R.id.data_view_group).invalidate()
 
         t.clearCanvas()
     }
